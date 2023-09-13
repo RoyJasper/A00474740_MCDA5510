@@ -8,4 +8,4 @@ We are a group of 3 Me, Jerry, and Nghia Phan. The common interest we have is Pl
 Jerry and I play COD and online competitive shooter games but Nghia is only into RPG games but anyhow we are into games!!
 
 
-Fun Fact: have you heard of sitting simply and doing nothing?? I'm expert in that lol!
+Fun Fact: have you tried of sitting simply and doing nothing?? I'm expert in that lol!
