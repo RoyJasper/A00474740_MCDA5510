@@ -8,10 +8,10 @@ Nghia Phan, from Vietnam.
 I choose this program because of its practicality, such as there are 2 co-ops, industrial instructors in class, so it helps me professionally.
 
 Self Intro:
-Hello, I'm Roy Jasper I did my Undergrad back in India in Information Technology and worked in LTIMindtree for 4 years as data engineer. I have been engeged in creating ETL pipelines in SQL Server Integration Services and defining data stareams to load data from multiple sources to multiple destinations and cleaning and tuning of the data. And I also worked on creating, publishing Power BI reports according the requirments from stakeholders which will make them to take predictive business decissions. The prime reason of taking this course is to elevate my data engineering skills and to be successfull data scientist.
+Hello, I'm Roy Jasper I did my undergraduate degree back in India in Information Technology and worked in LTIMindtree for 4 years as a data engineer. I have been engaged in creating ETL pipelines in SQL Server Integration Services defining data streams to load data from multiple sources to multiple destinations and cleaning and tuning the data. And I also worked on creating, publishing Power BI reports according to the requirements of the stakeholders which will make them to take predictive business decisions. The prime reason for taking this course is to elevate my data engineering skills and to be a successful data scientist.
 
 We are a group of 3 Me, Jerry, and Nghia Phan. The common interest we have is Playing online games :D
-Jerry and I play COD and online competitive shooter games but Nghia is only into RPG games but anyhow we are into games!!
+Jerry and I play COD and online competitive shooter games but Nghia is into RPG games anyhow we are into games!!
 
 
 Fun Fact: have you tried of sitting simply and doing nothing?? I'm expert in that lol!
