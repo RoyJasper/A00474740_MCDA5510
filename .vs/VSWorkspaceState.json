@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ProgAssign1"
+    "\\ProgAssign1",
+    "\\ProgAssign1\\Assignment1"
   ],
-  "SelectedNode": "\\ProgAssign1",
+  "SelectedNode": "\\ProgAssign1\\Assignment1\\DirWalker.cs",
   "PreviewInSolutionExplorer": false
 }
