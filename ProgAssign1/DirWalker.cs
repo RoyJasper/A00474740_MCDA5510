@@ -111,7 +111,7 @@ namespace Assignment1
 
         public void ReadCSV(string filepath)
         {
-            int status;
+            string status=null;
             var reader = new StreamReader(filepath);
             var csvreader = new CsvReader(reader, CultureInfo.InvariantCulture);
             var output = csvreader.GetRecords<Customer>().ToList();
@@ -120,16 +120,16 @@ namespace Assignment1
             {
                 //Console.WriteLine(cus.Email, cus.Phone);
                 status = RecordChecker(cus);
-                if(status == 0)
+                if(status == "OK")
                 {
                     //Console.WriteLine("Good record :");
                    // displayData(cus);
                 }
-                else if (status == 1)
+                else
                 {
                     Console.WriteLine("Bad record ");
                     displayData(cus);
-                    LogBadData(cus, filepath);
+                    LogBadData(status,cus, filepath);
                 }
             }
             //***Data Check
@@ -140,16 +140,21 @@ namespace Assignment1
           // csvwriter.WriteRecords(output);
         }
 
-        private void LogBadData(Customer cus, string filepath)
+        private void LogBadData(string  status, Customer cus, string filepath)
         {
             using (StreamWriter sw = System.IO.File.AppendText(LogFilepath))
             {
                 List<String> BadDataFile = new List<String>(filepath.Split(@"Sample Data"));
 
-                sw.WriteLine("\t First_Name:{0} \t Last_Name:{1} \t Street_Number:{2} \t Street_Name:{3} \t City:{4} \t Province:{5} " +
-                "\t Poastal_Code:{6} \t Country:{7} \t Phone:{8} \t Email:{9} , File Path : {10}",
+                sw.WriteLine("First_Name: {0} \t Last_Name: {1} \t Street_Number: {2} \t Street_Name: {3} \t City: {4} \t Province: {5} " +
+                "\t Poastal_Code: {6} \t Country: {7} \t Phone: {8} \t Email: {9} || \t Reason: {11} \t File Path : {10}",
                 cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
-                , BadDataFile[BadDataFile.Count - 1]);
+                , BadDataFile[BadDataFile.Count - 1], status);
+
+             /*   sw.WriteLine("First_Name:  \t Last_Name:  \t Street_Number:  \t Street_Name:  \t City:  \t Province:  \t Poastal_Code:  \t Country:  \t Phone:  \t Email:  || \t Reason:  \t File Path:");
+                sw.WriteLine( cus.First_Name +"\t"+ cus.Last_Name + "\t" + cus.Street_Number + "\t" + cus.Street_Name + "\t" +
+                    cus.City + "\t" + cus.Province + "\t" + cus.Poastal_Code + "\t" + cus.Country + "\t" + cus.Phone + "\t" + cus.Email
+                 + "\t" + BadDataFile[BadDataFile.Count - 1] + "\t" + status); */
             }
 
         }
@@ -176,19 +181,34 @@ namespace Assignment1
          //   csvContext.Write(output,filepath,csvFileDescription);
         }
 
-        public static int RecordChecker(Customer cus)
+        public static string RecordChecker(Customer cus)
         {
            string strRegex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
             Regex re = new Regex(strRegex, RegexOptions.IgnoreCase);
-            if (cus.First_Name == "" || cus.Street_Number == "" || cus.Street_Name == "" || cus.City == "" || cus.Province == ""
-                || cus.Poastal_Code == "" || cus.Country == "" || cus.Phone == "" || cus.Email == "")
-                return 1;
-              else
-                 {  
+            if (cus.First_Name == "")
+                return "Empty First Name";
+            if ( cus.Street_Number == "")
+                return "Empty Last name";
+            if (cus.Street_Name == "")
+                return "Empty Street Name";
+            if (cus.City == "")
+                return "Empty City";
+            if (cus.Province == "")
+                return "Empty Province";
+            if (cus.Poastal_Code == "")
+                return "Null Postal code ";
+            if (cus.Country == "")
+                return "Null County";
+            if (cus.Phone == "")
+                return "Null Phone";
+            if (cus.Email == "")
+                return "Null Email";
+            else
+               {  
                if (re.IsMatch(cus.Email))
-                    return 0;
+                    return "OK";
                 else
-                   return 1;
+                   return "Invalid Email";
                  }
         }
     }
