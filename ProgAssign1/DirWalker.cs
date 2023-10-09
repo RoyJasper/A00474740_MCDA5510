@@ -1,5 +1,7 @@
 ﻿using System;
+using CsvHelper;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Assignment1
 {
@@ -16,7 +18,7 @@ namespace Assignment1
             try
             {
                 string[] list = Directory.GetDirectories(path);
-                Console.WriteLine("\n -------------------------------- \nPassed Path " + path);
+                Console.WriteLine("\n ------------------ \nPassed Path " + path);
                 if (list == null) return;
 
                 foreach (string dirpath in list)
@@ -30,8 +32,11 @@ namespace Assignment1
                  string[] fileList = Directory.GetFiles(path);
                  foreach (string filepath in fileList)
                  {
-
-                     Console.WriteLine("File:" + filepath);
+                    // string strRegex = @"*.csv";
+                    // Regex re = new Regex(strRegex, RegexOptions.IgnoreCase);
+                    // if (re.IsMatch(filepath))
+                    if (filepath.Contains(".csv"))
+                        Console.WriteLine("File:" + filepath);
                  } 
             }catch (Exception ex) { Console.WriteLine(ex.ToString()); }
         }

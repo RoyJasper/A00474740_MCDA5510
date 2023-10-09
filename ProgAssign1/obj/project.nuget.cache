@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "m5uI81hFDP9xNa0x98q0R7hvj1dv+L3TVs3jnurWblX55/NeHy6/hUm7gJtn84ixFzPcIb4hYfGKq7g9jh9xGg==",
+  "dgSpecHash": "3UJpOgGWTiZaGMlWjZA4D4Fwjtg7FXmKNHe6CYMmuMkT9xURbyhWztEBM0Dd4WLuk4pTP5TvgzanNRU7d4OHYg==",
   "success": true,
   "projectFilePath": "D:\\SMU Courses\\5510 Software development in business environment\\Assignment 1\\FileMerge\\ProgAssign1\\ProgAssign1.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\csvhelper\\30.0.1\\csvhelper.30.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
