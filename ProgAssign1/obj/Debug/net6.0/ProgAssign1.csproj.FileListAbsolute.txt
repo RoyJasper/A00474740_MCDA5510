@@ -15,3 +15,4 @@ D:\SMU Courses\5510 Software development in business environment\Assignment 1\Fi
 D:\SMU Courses\5510 Software development in business environment\Assignment 1\FileMerge\ProgAssign1\bin\Debug\net6.0\CsvHelper.dll
 D:\SMU Courses\5510 Software development in business environment\Assignment 1\FileMerge\ProgAssign1\obj\Debug\net6.0\ProgAssign1.csproj.AssemblyReference.cache
 D:\SMU Courses\5510 Software development in business environment\Assignment 1\FileMerge\ProgAssign1\obj\Debug\net6.0\ProgAssign1.csproj.CopyComplete
+D:\SMU Courses\5510 Software development in business environment\Assignment 1\FileMerge\ProgAssign1\bin\Debug\net6.0\LINQtoCSV.dll

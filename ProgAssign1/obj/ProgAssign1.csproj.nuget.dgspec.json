@@ -43,6 +43,10 @@
             "CsvHelper": {
               "target": "Package",
               "version": "[30.0.1, )"
+            },
+            "LINQtoCSV": {
+              "target": "Package",
+              "version": "[1.5.0, )"
             }
           },
           "imports": [

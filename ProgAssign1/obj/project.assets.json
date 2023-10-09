@@ -14,6 +14,15 @@
             "related": ".xml"
           }
         }
+      },
+      "LINQtoCSV/1.5.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/LINQtoCSV.dll": {}
+        },
+        "runtime": {
+          "lib/net35/LINQtoCSV.dll": {}
+        }
       }
     }
   },
@@ -41,11 +50,24 @@
         "lib/netstandard2.1/CsvHelper.dll",
         "lib/netstandard2.1/CsvHelper.xml"
       ]
+    },
+    "LINQtoCSV/1.5.0": {
+      "sha512": "R3FWKGV326oWhEIJFgBQvJyeEs7ylViAMjTYs1YetwVdGfbDGf465xfLaxUxePwF/8Tcajt/1Llj3exhYL2xhQ==",
+      "type": "package",
+      "path": "linqtocsv/1.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/LINQtoCSV.dll",
+        "linqtocsv.1.5.0.nupkg.sha512",
+        "linqtocsv.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "CsvHelper >= 30.0.1"
+      "CsvHelper >= 30.0.1",
+      "LINQtoCSV >= 1.5.0"
     ]
   },
   "packageFolders": {
@@ -90,6 +112,10 @@
           "CsvHelper": {
             "target": "Package",
             "version": "[30.0.1, )"
+          },
+          "LINQtoCSV": {
+            "target": "Package",
+            "version": "[1.5.0, )"
           }
         },
         "imports": [
@@ -111,5 +137,17 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'LINQtoCSV 1.5.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "libraryId": "LINQtoCSV",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }
