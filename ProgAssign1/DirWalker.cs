@@ -13,6 +13,8 @@ using System.Formats.Asn1;
 using LINQtoCSV;
 using static System.Net.WebRequestMethods;
 using Microsoft.VisualBasic;
+using System.Diagnostics;
+using File = System.IO.File;
 
 namespace Assignment1
 {
@@ -43,12 +45,14 @@ namespace Assignment1
     {
         public CsvWriter? csvwriter ;
         private object? output;
+        public static StreamWriter? StreamCSVwritter;
         public static string? LogFilepath;
         public static string? csvPath;
+        public static int SkippedRows = 0, ValidRows =0;
 
         public static void Main(String[] args)
         {
-            
+            var watch = Stopwatch.StartNew();
             //CSV full data file
             csvPath = @"..\..\..\Output\FullData.csv";
             if (System.IO.File.Exists(csvPath))
@@ -67,13 +71,16 @@ namespace Assignment1
             FileStream logstream = System.IO.File.Create(LogFilepath);
             logstream.Close();
 
-            StreamWriter writter = new StreamWriter(csvPath);
-            CsvWriter csvwriter = new CsvWriter(writter, CultureInfo.InvariantCulture);
+            StreamCSVwritter = new StreamWriter(csvPath);
 
             DirWalker fm = new DirWalker();
             fm.walk(@"..\..\..\Sample Data");
-
-
+            watch.Stop();
+            //Console.WriteLine("Program execution time: {0} Milliseconds {1} {2}", watch.ElapsedMilliseconds, SkippedRows, ValidRows);
+            //Writting to log file the execution time and no. of records.
+            using (StreamWriter sw = File.AppendText(LogFilepath))
+                sw.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds,  ValidRows, SkippedRows);
+            
         }
 
         public void walk(String path)
@@ -116,10 +123,12 @@ namespace Assignment1
                 status = RecordChecker(cus);
                 if(status == "OK")
                 {
+                    ValidRows++;
                     WriteCSV(cus, filepath);
                 }
                 else
                 {
+                    SkippedRows++;
                     LogBadData(status,cus, filepath);
                 }
             }
@@ -169,12 +178,26 @@ namespace Assignment1
                 SeparatorChar = ','
             };
 
-           // StreamWriter writer = new StreamWriter(@"..\..\..\Output\FullData_1.csv", false);
-          //  CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-          //  { 
-              // csv.WriteRecords((System.Collections.IEnumerable)cus);
-          //  }
             
+            CsvWriter csvwriter = new CsvWriter(StreamCSVwritter, CultureInfo.InvariantCulture);
+            csvwriter.WriteField(cus.First_Name);
+            csvwriter.WriteField(cus.Last_Name);
+            csvwriter.WriteField(cus.Street_Number);
+            csvwriter.WriteField(cus.Street_Name);
+            csvwriter.WriteField(cus.City);
+            csvwriter.WriteField(cus.Province);
+            csvwriter.WriteField(cus.Poastal_Code);
+            csvwriter.WriteField(cus.Country);
+            csvwriter.WriteField(cus.Phone);
+            csvwriter.WriteField(cus.Email);
+            csvwriter.WriteField(DateColum);
+            csvwriter.NextRecord();
+            // StreamWriter writer = new StreamWriter(@"..\..\..\Output\FullData_1.csv", false);
+            //  CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            //  { 
+            // csv.WriteRecords((System.Collections.IEnumerable)cus);
+            //  }
+
             // var csvContext = new CsvHelper.CsvContext();
             //   csvContext.Write(output,filepath,csvFileDescription);
         }
