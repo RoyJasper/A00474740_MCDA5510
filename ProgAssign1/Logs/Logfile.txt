@@ -497,6 +497,6 @@ First_Name:  	 Last_Name:  	 Street_Number: 424 	 Street_Name: Burgee Run 	 City
 First_Name: Ethan 	 Last_Name: Johnson 	 Street_Number: 206 	 Street_Name: Birch Street 	 City: Medicine Hat 	 Province:  	 Poastal_Code: E4M 2G2 	 Country: Canada 	 Phone: 1241708261 	 Email: Ethan@place.com || 	 Reason: Empty Province 	 File Path : \2017\12\3\CustomerData9.csv
 First_Name:  	 Last_Name: Miller 	 Street_Number: 308 	 Street_Name: Bayne St Ramp 	 City: Milton 	 Province: New Brunswick 	 Poastal_Code: E7E 3T7 	 Country: Canada 	 Phone: 551354764 	 Email: null@company.com || 	 Reason: Empty First Name 	 File Path : \2017\12\3\CustomerData9.csv
 
-Program execution time: 1328 Milliseconds 
+Program execution time: 2749 Milliseconds 
 Valid Rows: 1431 
 Skipped Rows: 498

@@ -15,6 +15,7 @@ using static System.Net.WebRequestMethods;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
 using File = System.IO.File;
+using System.Data;
 
 namespace Assignment1
 {
@@ -39,11 +40,12 @@ namespace Assignment1
         [Name("Phone Number")]
         public string Phone { get; set; }
         [Name("email Address")]
-        public string Email { get; set; }   
+        public string Email { get; set; }
     }
     public class DirWalker
     {
-        public CsvWriter? csvwriter ;
+        public static CsvWriter? csvwriter ;
+
         private object? output;
         public static StreamWriter? StreamCSVwritter;
         public static string? LogFilepath;
@@ -72,6 +74,10 @@ namespace Assignment1
             logstream.Close();
 
             StreamCSVwritter = new StreamWriter(csvPath);
+            csvwriter = new CsvWriter(StreamCSVwritter, CultureInfo.InvariantCulture);
+            csvwriter.WriteHeader<Customer>();
+            csvwriter.WriteField("Date");
+            csvwriter.NextRecord();
 
             DirWalker fm = new DirWalker();
             fm.walk(@"..\..\..\Sample Data");
@@ -170,16 +176,10 @@ namespace Assignment1
         {
             //  csvwriter.WriteField()
             List<String> strings = new List<String>(filepath.Split(@"\"));
-            string DateColum = strings[strings.Count - 4] + "/" + strings[strings.Count - 3] + "/" + strings[strings.Count - 2];
-
-            var csvFileDescription = new CsvFileDescription 
-            {
-                FirstLineHasColumnNames = true,
-                SeparatorChar = ','
-            };
-
-            
-            CsvWriter csvwriter = new CsvWriter(StreamCSVwritter, CultureInfo.InvariantCulture);
+            string Date = strings[strings.Count - 4] + "/" + strings[strings.Count - 3] + "/" + strings[strings.Count - 2];
+           
+            //DateTime DateColum = DateTime.ParseExact(Date, "yyyy/MM/dd", CultureInfo.InvariantCulture);
+           
             csvwriter.WriteField(cus.First_Name);
             csvwriter.WriteField(cus.Last_Name);
             csvwriter.WriteField(cus.Street_Number);
@@ -190,8 +190,9 @@ namespace Assignment1
             csvwriter.WriteField(cus.Country);
             csvwriter.WriteField(cus.Phone);
             csvwriter.WriteField(cus.Email);
-            csvwriter.WriteField(DateColum);
+            csvwriter.WriteField(Date);
             csvwriter.NextRecord();
+           
             // StreamWriter writer = new StreamWriter(@"..\..\..\Output\FullData_1.csv", false);
             //  CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
             //  { 
