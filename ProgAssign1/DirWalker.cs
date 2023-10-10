@@ -41,6 +41,8 @@ namespace Assignment1
         public string Phone { get; set; }
         [Name("email Address")]
         public string Email { get; set; }
+        [Optional]
+        public string Field { get; set; }
     }
     public class DirWalker
     {
@@ -123,7 +125,9 @@ namespace Assignment1
             string status=null;
             var reader = new StreamReader(filepath);
             var csvreader = new CsvReader(reader, CultureInfo.InvariantCulture);
+            //csvreader.Configuration.MissingFieldFound = null;
             var output = csvreader.GetRecords<Customer>().ToList();
+            
             foreach (var cus in output)
             {
                 status = RecordChecker(cus);
@@ -150,7 +154,7 @@ namespace Assignment1
                 List<String> BadDataFile = new List<String>(filepath.Split(@"Sample Data"));
 
                 sw.WriteLine("First_Name: {0} \t Last_Name: {1} \t Street_Number: {2} \t Street_Name: {3} \t City: {4} \t Province: {5} " +
-                "\t Poastal_Code: {6} \t Country: {7} \t Phone: {8} \t Email: {9} || \t Reason: {11} \t File Path : {10}",
+                "\t Poastal_Code: {6} \t Country: {7} \t Phone: {8} \t Email: {9} -->> \t Reason: {11} \t File Path : {10}",
                 cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
                 , BadDataFile[BadDataFile.Count - 1], status);
 
@@ -192,15 +196,6 @@ namespace Assignment1
             csvwriter.WriteField(cus.Email);
             csvwriter.WriteField(Date);
             csvwriter.NextRecord();
-           
-            // StreamWriter writer = new StreamWriter(@"..\..\..\Output\FullData_1.csv", false);
-            //  CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-            //  { 
-            // csv.WriteRecords((System.Collections.IEnumerable)cus);
-            //  }
-
-            // var csvContext = new CsvHelper.CsvContext();
-            //   csvContext.Write(output,filepath,csvFileDescription);
         }
 
         public static string RecordChecker(Customer cus)
