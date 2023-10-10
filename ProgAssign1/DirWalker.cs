@@ -44,16 +44,16 @@ namespace Assignment1
         public CsvWriter? csvwriter ;
         private object? output;
         public static string? LogFilepath;
+        public static string? csvPath;
 
         public static void Main(String[] args)
         {
             
             //CSV full data file
-            string csvPath = @"..\..\..\Output\FullData.csv";
+            csvPath = @"..\..\..\Output\FullData.csv";
             if (System.IO.File.Exists(csvPath))
             {
-                System.IO.File.Delete(csvPath);
-               Console.WriteLine("File newely created");
+               Console.WriteLine("File deleted");
             }
             FileStream fs = System.IO.File.Create(csvPath);
             fs.Close();
@@ -81,7 +81,7 @@ namespace Assignment1
             try
             {
                 string[] list = Directory.GetDirectories(path);
-                Console.WriteLine("\n ------------------ \nPassed Path " + path);
+               // Console.WriteLine("\n ------------------ \nPassed Path " + path);
                 if (list == null) return;
 
                 foreach (string dirpath in list)
@@ -89,19 +89,15 @@ namespace Assignment1
                     if (Directory.Exists(dirpath))
                     {
                         walk(dirpath);
-                        Console.WriteLine("Dir:" + dirpath);
+                       // Console.WriteLine("Dir:" + dirpath);
                     }
                 }
                 string[] fileList = Directory.GetFiles(path);
                 foreach (string filepath in fileList)
                 {
-                    // string strRegex = @"*.csv";
-                    // Regex re = new Regex(strRegex, RegexOptions.IgnoreCase);
-                    // if (re.IsMatch(filepath))		filepath	"..\\..\\..\\Sample Data\\2017\\11\\19\\CustomerData0.csv"	string
-
                     if (filepath.EndsWith(".csv"))
                     {
-                        Console.WriteLine("File:" + filepath);
+                     //   Console.WriteLine("File:" + filepath);
                         ReadCSV(filepath);
                     }
                 }
@@ -115,29 +111,21 @@ namespace Assignment1
             var reader = new StreamReader(filepath);
             var csvreader = new CsvReader(reader, CultureInfo.InvariantCulture);
             var output = csvreader.GetRecords<Customer>().ToList();
-            //Console.WriteLine(output.ToArray());
             foreach (var cus in output)
             {
-                //Console.WriteLine(cus.Email, cus.Phone);
                 status = RecordChecker(cus);
                 if(status == "OK")
                 {
-                    //Console.WriteLine("Good record :");
-                   // displayData(cus);
+                    WriteCSV(cus, filepath);
                 }
                 else
                 {
-                    Console.WriteLine("Bad record ");
-                    displayData(cus);
                     LogBadData(status,cus, filepath);
                 }
             }
             //***Data Check
-
-            List<String> strings = new List<String>(filepath.Split(@"\"));
-           // Console.WriteLine(strings[strings.Count-1]+" Has "+ output.Count);
-            Console.WriteLine("");
-          // csvwriter.WriteRecords(output);
+            //List<String> strings = new List<String>(filepath.Split(@"\"));
+            //Console.WriteLine("");
         }
 
         private void LogBadData(string  status, Customer cus, string filepath)
@@ -169,16 +157,26 @@ namespace Assignment1
            
         }
 
-        public void WriteCSV(string filepath)
-        { 
+        public void WriteCSV(Customer cus, string filepath)
+        {
             //  csvwriter.WriteField()
+            List<String> strings = new List<String>(filepath.Split(@"\"));
+            string DateColum = strings[strings.Count - 4] + "/" + strings[strings.Count - 3] + "/" + strings[strings.Count - 2];
+
             var csvFileDescription = new CsvFileDescription 
             {
                 FirstLineHasColumnNames = true,
                 SeparatorChar = ','
             };
-           // var csvContext = new CsvHelper.CsvContext();
-         //   csvContext.Write(output,filepath,csvFileDescription);
+
+           // StreamWriter writer = new StreamWriter(@"..\..\..\Output\FullData_1.csv", false);
+          //  CsvWriter csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+          //  { 
+              // csv.WriteRecords((System.Collections.IEnumerable)cus);
+          //  }
+            
+            // var csvContext = new CsvHelper.CsvContext();
+            //   csvContext.Write(output,filepath,csvFileDescription);
         }
 
         public static string RecordChecker(Customer cus)
