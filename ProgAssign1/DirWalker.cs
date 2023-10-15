@@ -81,7 +81,7 @@ namespace Assignment1
             DirWalker fm = new DirWalker();
             fm.walk(@"..\..\..\Sample Data");
             watch.Stop();
-            Console.WriteLine("Program execution time: {0} Milliseconds {1} {2}", watch.ElapsedMilliseconds, SkippedRows, ValidRows);
+            Console.WriteLine("\n Program execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
             //Writting to log file the execution time and no. of records.
             using (StreamWriter sw = File.AppendText(LogFilepath))
                 sw.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
@@ -241,35 +241,37 @@ namespace Assignment1
 
         public static string RecordChecker(Customer cus)
         {
-            string returnString =null,strRegex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+            string returnString =null,strRegex = @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
             Regex re = new Regex(strRegex, RegexOptions.IgnoreCase);
             // returnString += "Empty First Name";
             if (cus.First_Name == "")
                 returnString+= "Empty First Name";
             if (cus.Street_Number == "")
-                returnString += "Empty Street Number";
+                returnString += "Empty Street Number, ";
             if (cus.Street_Name == "")
-                returnString += "Empty Street Name";
+                returnString += "Empty Street Name, ";
             if (cus.City == "")
-                returnString += "Empty City";
+                returnString += "Empty City, ";
             if (cus.Province == "")
-                returnString += "Empty Province";
+                returnString += "Empty Province, ";
             if (cus.Poastal_Code == "")
-                returnString += "Null Postal code ";
+                returnString += "Null Postal code, ";
             if (cus.Country == "")
-                returnString += "Null County";
+                returnString += "Null County, ";
             if (cus.Phone == "")
-                returnString += "Null Phone";
+                returnString += "Null Phone, ";
             if (cus.Email == "")
-                returnString += "Null Email";
+                returnString += "Null Email. ";
+            if(returnString!=null) 
+                return returnString;
             else
             {
                 if (re.IsMatch(cus.Email))
                     return "OK";
                 else
-                    return "Invalid Email";
+                    return "Invalid Email.";
             }
-            return returnString;
+           //  return returnString;
         }
     }
 }
