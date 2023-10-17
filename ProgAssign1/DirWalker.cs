@@ -53,45 +53,55 @@ namespace Assignment1
 
         public static void Main(String[] args)
         {
-            var watch = Stopwatch.StartNew();
-            //CSV full data file
-            csvPath = @"..\..\..\Output\FullData.csv";
-            if (System.IO.File.Exists(csvPath))
+            try
             {
-                Console.WriteLine("File deleted");
-            }
-            FileStream fs = System.IO.File.Create(csvPath);
-            fs.Close();
-            // Log file
-            LogFilepath = @"..\..\..\Logs\Logfile.txt";
-            if (System.IO.File.Exists(LogFilepath))
+                var watch = Stopwatch.StartNew();
+                //CSV full data file
+                Console.WriteLine("Appending all CSV files to a single file...");
+
+                csvPath = @"..\..\..\Output\FullData.csv";
+                if (System.IO.File.Exists(csvPath))
+                {
+                    // Console.WriteLine("File deleted");
+                }
+                FileStream fs = System.IO.File.Create(csvPath);
+                fs.Close();
+                // Log file
+                LogFilepath = @"..\..\..\Logs\Logfile.txt";
+                if (System.IO.File.Exists(LogFilepath))
+                {
+                    System.IO.File.Delete(LogFilepath);
+                    // Console.WriteLine("Log File newely created");
+                }
+                FileStream logstream = System.IO.File.Create(LogFilepath);
+                logstream.Close();
+
+                StreamCSVwritter = new StreamWriter(csvPath);
+                csvwriter = new CsvWriter(StreamCSVwritter, CultureInfo.InvariantCulture);
+                csvwriter.WriteHeader<Customer>();
+                csvwriter.WriteField("Date");
+                csvwriter.NextRecord();
+
+                DirWalker fm = new DirWalker();
+                fm.walk(@"..\..\..\Sample Data");
+                watch.Stop();
+                Console.WriteLine(@"The processed file is stored in Output\FullData.csv");
+                //  Console.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
+                //Writting to log file the execution time and no. of records.
+                using (StreamWriter sw = File.AppendText(LogFilepath))
+                    sw.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
+            }catch(Exception e)
             {
-                System.IO.File.Delete(LogFilepath);
-                Console.WriteLine("Log File newely created");
+                Console.WriteLine(e.ToString());    
             }
-            FileStream logstream = System.IO.File.Create(LogFilepath);
-            logstream.Close();
-
-            StreamCSVwritter = new StreamWriter(csvPath);
-            csvwriter = new CsvWriter(StreamCSVwritter, CultureInfo.InvariantCulture);
-            csvwriter.WriteHeader<Customer>();
-            csvwriter.WriteField("Date");
-            csvwriter.NextRecord();
-
-            DirWalker fm = new DirWalker();
-            fm.walk(@"..\..\..\Sample Data");
-            watch.Stop();
-            Console.WriteLine("\n Program execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
-            //Writting to log file the execution time and no. of records.
-            using (StreamWriter sw = File.AppendText(LogFilepath))
-                sw.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
-
+            
         }
 
         public void walk(String path)
         {
+            string exfile = null;
             try
-            {
+            { 
                 string[] list = Directory.GetDirectories(path);
                 // Console.WriteLine("\n ------------------ \nPassed Path " + path);
                 if (list == null) return;
@@ -109,12 +119,13 @@ namespace Assignment1
                 {
                     if (filepath.EndsWith(".csv"))
                     {
-                        Console.WriteLine("File:" + filepath);
+                        //Console.WriteLine("File:" + filepath);
+                        exfile = filepath;
                         ReadCSV(filepath);
                     }
                 }
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (CsvHelper.HeaderValidationException ex) { Console.WriteLine("Invalid file format. Please check the file: "+exfile); }
         }
 
         public void ReadCSV(string filepath)
@@ -194,7 +205,7 @@ namespace Assignment1
             {
                 List<String> BadDataFile = new List<String>(filepath.Split(@"Sample Data"));
 
-                sw.WriteLine("First_Name: {0} \t Last_Name: {1} \t Street_Number: {2} \t Street_Name: {3} \t City: {4} \t Province: {5} " +
+              /*  sw.WriteLine("First_Name: {0} \t Last_Name: {1} \t Street_Number: {2} \t Street_Name: {3} \t City: {4} \t Province: {5} " +
                 "\t Poastal_Code: {6} \t Country: {7} \t Phone: {8} \t Email: {9} -->> \t Reason: {11} \t File Path : {10}",
                 cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
                 , BadDataFile[BadDataFile.Count - 1], status);
@@ -203,6 +214,10 @@ namespace Assignment1
                    sw.WriteLine( cus.First_Name +"\t"+ cus.Last_Name + "\t" + cus.Street_Number + "\t" + cus.Street_Name + "\t" +
                        cus.City + "\t" + cus.Province + "\t" + cus.Poastal_Code + "\t" + cus.Country + "\t" + cus.Phone + "\t" + cus.Email
                     + "\t" + BadDataFile[BadDataFile.Count - 1] + "\t" + status); */
+
+                sw.WriteLine(" {0} ,  {1} ,  {2} ,  {3} ,  {4} ,  {5} ,  {6} ,  {7} ,  {8} ,  {9} ,  {11} ,    {10}",
+                    cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
+,                    BadDataFile[BadDataFile.Count - 1], status);
             }
 
         }
@@ -245,23 +260,23 @@ namespace Assignment1
             Regex re = new Regex(strRegex, RegexOptions.IgnoreCase);
             // returnString += "Empty First Name";
             if (cus.First_Name == "")
-                returnString+= "Empty First Name";
+                returnString+= " Empty First Name ";
             if (cus.Street_Number == "")
-                returnString += "Empty Street Number, ";
+                returnString += " Empty Street Number ";
             if (cus.Street_Name == "")
-                returnString += "Empty Street Name, ";
+                returnString += " Empty Street Name ";
             if (cus.City == "")
-                returnString += "Empty City, ";
+                returnString += " Empty City ";
             if (cus.Province == "")
-                returnString += "Empty Province, ";
+                returnString += " Empty Province ";
             if (cus.Poastal_Code == "")
-                returnString += "Null Postal code, ";
+                returnString += " Empty Postal code ";
             if (cus.Country == "")
-                returnString += "Null County, ";
+                returnString += " Empty County ";
             if (cus.Phone == "")
-                returnString += "Null Phone, ";
+                returnString += " Empty Phone ";
             if (cus.Email == "")
-                returnString += "Null Email. ";
+                returnString += " Empty Email. ";
             if(returnString!=null) 
                 return returnString;
             else

@@ -9,12 +9,9 @@ that contain CSV files with customer info.
 
 Challenges:
 
-• Your updated readme from class must be completed
-• The program should use logging for both info and all possible checked exceptions
+• The program should use logging for both info and all possible checked exceptions.
 • Some lines in the file will contain incomplete records and should be ignored (and logged) – Counted as skipped rows.
-• The program must use the CSV library
-• In the end, the program should log – Total execution time– Total number of valid rows– Total number of skipped rows  
-• Submit repo in and VS solution files to GitHub  
-• Submit result file to directory” Output” in the repo
+• The program must use the CSV library.
+• In the end, the program should log – Total execution time– Total number of valid rows– Total number of skipped rows.   
 • Data ColumnsFirst Name, Last Name, Street Number, Street, City, Province, Country, Postal Code, Phone Number, Email Address 
 • Add the date to the defined in the directory structure as a date data column (yyyy/mm/dd)
