@@ -14,4 +14,13 @@ Challenges:
 • The program must use the CSV library.
 • In the end, the program should log – Total execution time– Total number of valid rows– Total number of skipped rows.   
 • Data ColumnsFirst Name, Last Name, Street Number, Street, City, Province, Country, Postal Code, Phone Number, Email Address 
-• Add the date to the defined in the directory structure as a date data column (yyyy/mm/dd)
+• Add the date to the defined in the directory structure as a date data column.
+
+
+The Assignment is completed and the main C# file is DirWalker.cs
+The Output file is stored in Output\FullData.csv
+The Log is stored in Logs\LogFile.log
+
+Conditions checked for good data:
+* First name should not be empty.
+* Last name can be empty as person can or cannot have a last name and remaining fields are checked that its not null.

@@ -1,19 +1,12 @@
 ﻿using System;
 using CsvHelper;
-using System.IO;
 using System.Globalization;
-using System.Linq;
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using System.Text.RegularExpressions;
 using CsvHelper.TypeConversion;
-using System.Globalization;
-using System.Formats.Asn1;
-using LINQtoCSV;
-using Microsoft.VisualBasic;
 using System.Diagnostics;
 using File = System.IO.File;
-using System.Data;
 
 namespace Assignment1
 {
@@ -62,12 +55,13 @@ namespace Assignment1
                 csvPath = @"..\..\..\Output\FullData.csv";
                 if (System.IO.File.Exists(csvPath))
                 {
+                    System.IO.File.Delete(csvPath);
                     // Console.WriteLine("File deleted");
                 }
                 FileStream fs = System.IO.File.Create(csvPath);
                 fs.Close();
                 // Log file
-                LogFilepath = @"..\..\..\Logs\Logfile.txt";
+                LogFilepath = @"..\..\..\Logs\Logfile.log";
                 if (System.IO.File.Exists(LogFilepath))
                 {
                     System.IO.File.Delete(LogFilepath);
@@ -76,6 +70,7 @@ namespace Assignment1
                 FileStream logstream = System.IO.File.Create(LogFilepath);
                 logstream.Close();
 
+                //CSV Writter
                 StreamCSVwritter = new StreamWriter(csvPath);
                 csvwriter = new CsvWriter(StreamCSVwritter, CultureInfo.InvariantCulture);
                 csvwriter.WriteHeader<Customer>();
@@ -89,7 +84,7 @@ namespace Assignment1
                 //  Console.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
                 //Writting to log file the execution time and no. of records.
                 using (StreamWriter sw = File.AppendText(LogFilepath))
-                    sw.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
+                    sw.WriteLine("\nProgram execution time: {0} Seconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds/1000, ValidRows, SkippedRows);
             }catch(Exception e)
             {
                 Console.WriteLine(e.ToString());    
@@ -145,10 +140,7 @@ namespace Assignment1
                 };
 
                 var output = csvreader.GetRecords<Customer>().ToList();
-                // i = output.Count;
-                // Customer  cus;
-                // for (i = 0; i < output.Count; i++)
-                //if(i!=0)
+
                 foreach (var cus in output)
                 {
 
@@ -201,42 +193,32 @@ namespace Assignment1
 
         private void LogBadData(string status, Customer cus, string filepath)
         {
+            //Writting to LOG file
             using (StreamWriter sw = System.IO.File.AppendText(LogFilepath))
             {
                 List<String> BadDataFile = new List<String>(filepath.Split(@"Sample Data"));
 
-              /*  sw.WriteLine("First_Name: {0} \t Last_Name: {1} \t Street_Number: {2} \t Street_Name: {3} \t City: {4} \t Province: {5} " +
-                "\t Poastal_Code: {6} \t Country: {7} \t Phone: {8} \t Email: {9} -->> \t Reason: {11} \t File Path : {10}",
-                cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
-                , BadDataFile[BadDataFile.Count - 1], status);
+                 sw.WriteLine("First_Name: {0} \t Last_Name: {1} \t Street_Number: {2} \t Street_Name: {3} \t City: {4} \t Province: {5} " +
+                  "\t Poastal_Code: {6} \t Country: {7} \t Phone: {8} \t Email: {9} -->> \t Reason: {11} \t File Path : {10}",
+                  cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
+                  , BadDataFile[BadDataFile.Count - 1], status); 
 
-                /*   sw.WriteLine("First_Name:  \t Last_Name:  \t Street_Number:  \t Street_Name:  \t City:  \t Province:  \t Poastal_Code:  \t Country:  \t Phone:  \t Email:  || \t Reason:  \t File Path:");
-                   sw.WriteLine( cus.First_Name +"\t"+ cus.Last_Name + "\t" + cus.Street_Number + "\t" + cus.Street_Name + "\t" +
-                       cus.City + "\t" + cus.Province + "\t" + cus.Poastal_Code + "\t" + cus.Country + "\t" + cus.Phone + "\t" + cus.Email
-                    + "\t" + BadDataFile[BadDataFile.Count - 1] + "\t" + status); */
-
-                sw.WriteLine(" {0} ,  {1} ,  {2} ,  {3} ,  {4} ,  {5} ,  {6} ,  {7} ,  {8} ,  {9} ,  {11} ,    {10}",
-                    cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
-,                    BadDataFile[BadDataFile.Count - 1], status);
+                     
+                  // CSV type to analyze 
+                   /*
+                  sw.WriteLine(" {0} ,  {1} ,  {2} ,  {3} ,  {4} ,  {5} ,  {6} ,  {7} ,  {8} ,  {9} ,  {11} ,    {10}",
+                      cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country, cus.Phone, cus.Email
+  ,                    BadDataFile[BadDataFile.Count - 1], status); */
+                   
             }
-
-        }
-
-        private void displayData(Customer cus)
-        {
-            Console.WriteLine("\n First_Name:{0} \n Last_Name:{1} \n Street_Number:{2} \n Street_Name:{3} \n City:{4} \n Province:{5} " +
-                "\n Poastal_Code:{6} " +
-                "\n Country:{7} \n Phone:{8} \n Email:{9} ",
-                cus.First_Name, cus.Last_Name, cus.Street_Number, cus.Street_Name, cus.City, cus.Province, cus.Poastal_Code, cus.Country,
-                cus.Phone, cus.Email);
 
         }
 
         public void WriteCSV(Customer cus, string filepath)
         {
-            //  csvwriter.WriteField()
+            // Writing to main CSV file.
             List<String> strings = new List<String>(filepath.Split(@"\"));
-            string Date = strings[strings.Count - 4] + "-" + strings[strings.Count - 3] + "-" + strings[strings.Count - 2];
+            string Date = strings[strings.Count - 4] + @"/" + strings[strings.Count - 3] + @"/" + strings[strings.Count - 2];
 
             //DateTime DateColum = DateTime.ParseExact(Date, "yyyy/MM/dd", CultureInfo.InvariantCulture);
 
@@ -256,9 +238,10 @@ namespace Assignment1
 
         public static string RecordChecker(Customer cus)
         {
+            //Validating the records.
             string returnString =null,strRegex = @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
             Regex re = new Regex(strRegex, RegexOptions.IgnoreCase);
-            // returnString += "Empty First Name";
+           
             if (cus.First_Name == "")
                 returnString+= " Empty First Name ";
             if (cus.Street_Number == "")
@@ -281,12 +264,8 @@ namespace Assignment1
                 return returnString;
             else
             {
-                if (re.IsMatch(cus.Email))
                     return "OK";
-                else
-                    return "Invalid Email.";
             }
-           //  return returnString;
         }
     }
 }
