@@ -21,6 +21,8 @@ The Assignment is completed and the main C# file is DirWalker.cs
 The Output file is stored in Output\FullData.csv
 The Log is stored in Logs\LogFile.log
 
+'Sample Data' folder is present in the solution folder. 
+
 Conditions checked for good data:
 * First name should not be empty.
 * Last name can be empty as person can or cannot have a last name and remaining fields are checked that its not null.
