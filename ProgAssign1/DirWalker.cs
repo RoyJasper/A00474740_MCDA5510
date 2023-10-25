@@ -50,7 +50,6 @@ namespace Assignment1
             {
                 var watch = Stopwatch.StartNew();
                 //CSV full data file
-                Console.WriteLine("Appending all CSV files to a single file...");
 
                 csvPath = @"..\..\..\Output\FullData.csv";
                 if (System.IO.File.Exists(csvPath))
@@ -78,16 +77,35 @@ namespace Assignment1
                 csvwriter.NextRecord();
 
                 DirWalker fm = new DirWalker();
-                fm.walk(@"..\..\..\Sample Data");
+
+                // fm.walk(@"..\..\..\Sample Data");
+                // String folder_path =
+                Console.WriteLine("Enter the folder path: ");
+                String fol_path = Console.ReadLine();
+                if (fol_path != null)
+                {
+                    Console.WriteLine("Appending all CSV files to a single file...");
+                    fm.walk(fol_path);
+                }
+                else
+                {
+                    Console.WriteLine("Enter valid path.\n");
+                    return;
+                }
                 watch.Stop();
                 Console.WriteLine(@"The processed file is stored in Output\FullData.csv");
                 //  Console.WriteLine("\nProgram execution time: {0} Milliseconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds, ValidRows, SkippedRows);
                 //Writting to log file the execution time and no. of records.
-                using (StreamWriter sw = File.AppendText(LogFilepath))
-                    sw.WriteLine("\nProgram execution time: {0} Seconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds/1000, ValidRows, SkippedRows);
+                if (ValidRows != 0)
+                    using (StreamWriter sw = File.AppendText(LogFilepath))
+                        sw.WriteLine("\nProgram execution time: {0} Seconds \nValid Rows: {1} \nSkipped Rows: {2}", watch.ElapsedMilliseconds / 1000, ValidRows, SkippedRows);
+                else
+                    Console.WriteLine("The Folder doesn't contain any csv files. ");
+                
             }catch(Exception e)
             {
-                Console.WriteLine(e.ToString());    
+               // Console.WriteLine(e.GetType());
+                Console.WriteLine(e.GetType().ToString().Split(".")[e.GetType().ToString().Split(".").Length-1].Replace("Exception",""));    
             }
             
         }
@@ -95,6 +113,7 @@ namespace Assignment1
         public void walk(String path)
         {
             string exfile = null;
+            
             try
             { 
                 string[] list = Directory.GetDirectories(path);
