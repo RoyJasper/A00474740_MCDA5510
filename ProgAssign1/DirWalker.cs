@@ -258,8 +258,7 @@ namespace Assignment1
         public static string RecordChecker(Customer cus)
         {
             //Validating the records.
-            string returnString =null,strRegex = @"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$";
-            Regex re = new Regex(strRegex, RegexOptions.IgnoreCase);
+            string returnString = null;
            
             if (cus.First_Name == "")
                 returnString+= " Empty First Name ";
